@@ -1,0 +1,20 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/MoOyeg/simple-spring-openshift-metrics-example.git'
+  name: simple-spring-openshift-metrics-example-git
+  namespace: simple-metrics-test
+  labels:
+    app: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/component: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/instance: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/name: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/part-of: simple-spring-openshift-metrics-example-git-app
+spec:
+  lookupPolicy:
+    local: false
+status:
+  dockerImageRepository: >-
+    image-registry.openshift-image-registry.svc:5000/simple-metrics-test/simple-spring-openshift-metrics-example-git

@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/component: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/instance: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/name: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/part-of: simple-spring-openshift-metrics-example-git-app
+  name: simple-spring-openshift-metrics-example-git
+  namespace: simple-metrics-test
+spec:
+  endpoints:  
+  - interval: 30s
+    port: 8080-tcp
+    scheme: http
+    path: /actuator/prometheus
+  selector:
+    matchLabels:
+      app: simple-spring-openshift-metrics-example-git

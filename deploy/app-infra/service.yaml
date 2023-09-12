@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: simple-spring-openshift-metrics-example-git
+  namespace: simple-metrics-test
+  labels:
+    app: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/component: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/instance: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/name: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/part-of: simple-spring-openshift-metrics-example-git-app
+  annotations:
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/MoOyeg/simple-spring-openshift-metrics-example.git'
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: simple-spring-openshift-metrics-example-git
+    deployment: simple-spring-openshift-metrics-example-git
+status:
+  loadBalancer: {}

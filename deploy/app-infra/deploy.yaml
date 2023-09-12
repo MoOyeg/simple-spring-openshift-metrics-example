@@ -1,0 +1,70 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*'
+    app.openshift.io/route-disabled: 'false'
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/MoOyeg/simple-spring-openshift-metrics-example.git'
+    deployment.kubernetes.io/revision: '3'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"simple-spring-openshift-metrics-example-git:latest","namespace":"simple-metrics-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\"simple-spring-openshift-metrics-example-git\")].image","pause":"false"}]
+  name: simple-spring-openshift-metrics-example-git
+  namespace: simple-metrics-test
+  labels:
+    app: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/component: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/instance: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/name: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/part-of: simple-spring-openshift-metrics-example-git-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-spring-openshift-metrics-example-git
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: simple-spring-openshift-metrics-example-git
+        deployment: simple-spring-openshift-metrics-example-git
+    spec:
+      containers:
+        - name: simple-spring-openshift-metrics-example-git
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/simple-metrics-test/simple-spring-openshift-metrics-example-git:latest
+          resources: {}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 90
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+            initialDelaySeconds: 90
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10

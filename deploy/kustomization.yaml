@@ -1,0 +1,5 @@
+namespace: "simple-metrics-test"
+resources:
+  - ./namespace.yaml
+  - ./app-infra
+  - ./build

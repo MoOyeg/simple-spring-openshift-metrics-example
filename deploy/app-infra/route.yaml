@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: simple-spring-openshift-metrics-example-git
+  namespace: simple-metrics-test
+  labels:
+    app: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/component: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/instance: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/name: simple-spring-openshift-metrics-example-git
+    app.kubernetes.io/part-of: simple-spring-openshift-metrics-example-git-app
+spec:
+  to:
+    kind: Service
+    name: simple-spring-openshift-metrics-example-git
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
