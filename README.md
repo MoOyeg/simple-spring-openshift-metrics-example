@@ -1,5 +1,5 @@
 # simple-spring-openshift-metrics-example
-Simple Example of using App metrics monitoring with SpringBoot
+Simple Example of using the integrated OpenShift application metrics monitoring with SpringBoot Apps.
 
 
 ## Pre-Requisites
@@ -28,3 +28,17 @@ Simple Example of using App metrics monitoring with SpringBoot
     ```bash
     oc apply -k ./monitor
     ```
+
+2 Confirm Deployment and Observe
+
+- If everything is up correctly our pod should show up as a target under Observe->Target
+![Target being successfully scraped by OCP](./images/target.png)
+
+- And we can use the OCP console to see the captured application metrics with PromQL under Observe->Metrics
+![Graph from metrics scraped from application](./images/metrics.png)
+
+3 Cleanup
+
+```bash
+oc delete -k ./deploy
+```
