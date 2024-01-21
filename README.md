@@ -5,9 +5,11 @@ Simple Example of using the integrated OpenShift application metrics monitoring 
 ## Pre-Requisites
 - OCP 4.10+
 - [Must enable User Workload Monitoring on Cluster](https://docs.openshift.com/container-platform/4.8/monitoring/enabling-monitoring-for-user-defined-projects.html)
+- [If testing alerts, enable platform Alertmanager for user-defined alert routing](https://docs.openshift.com/container-platform/4.14/monitoring/enabling-alert-routing-for-user-defined-projects.html#enabling-the-platform-alertmanager-instance-for-user-defined-alert-routing_enabling-alert-routing-for-user-defined-projects)
 
 
 ## Steps
+### Metrics Example
 1 Deploy Sample Application 
 
 - Run Deploy Command
@@ -37,7 +39,22 @@ Simple Example of using the integrated OpenShift application metrics monitoring 
 - And we can use the OCP console to see the captured application metrics with PromQL under Observe->Metrics
 ![Graph from metrics scraped from application](./images/metrics.png)
 
-3 Cleanup
+### Alerting Example
+We can also our application metrics for alerting
+
+- [Enable Alerting for User Defined Projects](https://docs.openshift.com/container-platform/4.14/monitoring/enabling-alert-routing-for-user-defined-projects.html)
+
+- Create a Prometheus Rule to monitor our Alerts
+    ```bash
+    oc apply -k ./alert
+    ```
+
+- Calling the Application URL more than 5 times should trigger an Alert
+```bash
+indexroute=$(oc get route simple-spring-openshift-metrics-example-git -n simple-metrics-test -o jsonpath='{.spec.host}')
+for i in {1..6};do curl -k  https://$indexroute ;done
+```
+### Cleanup
 
 ```bash
 oc delete -k ./deploy

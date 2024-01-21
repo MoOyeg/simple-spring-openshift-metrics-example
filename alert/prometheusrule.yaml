@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: toomanyapprequests
+  namespace: simple-metrics-test
+spec:
+  groups:
+  - name: simple-spring-openshift-metrics-git
+    rules:
+    - alert: Simple Metrics Example App Recieved Too Many Requests
+      expr: http_server_requests_seconds_count{job="simple-spring-openshift-metrics-example-git",uri="/"} > 5
